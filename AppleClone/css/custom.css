@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+body { font-family: "Myriad Set Pro","Lucida Grande","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";}
+ul { display: inline-block; }
+.navul li { display: inline-block;  margin-right: 74px; vertical-align: middle; }
+.navul li:last-child { margin-right: 0; }
+.navul a { text-decoration: none; color: #fff; }
+.navul img { width: 20px; height: 22px; }
+header { z-index: 1; width: 100%; height: 46px; background-color:rgba(20,20,20,0.9); position: absolute; top: 0; left: 0; right: 0;}
+nav { width: 80%; margin: 0 auto; position: relative; }
+img.searchlink { height: 16px; width: 18px; }
+.juma {  text-decoration: none; color: black; font-size: 1.3em;}
+.black-logo { width: 34px; height: 38px; position: relative; }
+.watchimg { position: absolute;  top: 0; left: 120px; }
+.jumbotron { width: 30%; position: relative; top: 220px; left: 700px; }
+.secondaryh { font-weight: normal; color: grey;}

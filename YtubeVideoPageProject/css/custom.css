@@ -1,0 +1,23 @@
+header ul li { float: right; display: block; margin: auto; margin : 7px 6px; }
+header ul li a { text-decoration: none; font-size: 12px }
+header ul { margin-right: 10px; }
+header img { float: left; display: block; margin: auto; margin : 7px 40px;}
+.wanchor { color: white; font-size: 14px; height: 14px; width: 20px; }
+.installbutton { background-color: blue; border: 1px solid black;}
+.signinbutton { color: black; }
+iframe { margin: 20px 40px; }
+.video { background-color: grey; width: 70%; display: inline-block;}
+header {
+    margin-top :-16px;
+    height: 3em;
+    background-color: white;
+    display: block;
+    width: 100%;
+    line-height: 24px;
+    text-align: center;
+}
+aside {
+    width: 30%;
+    display: inline-block;
+    float: right;
+}
