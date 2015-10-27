@@ -1,0 +1,52 @@
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+[class*="col-"] {
+//   &:after {
+//     content: "";
+//     display: table;
+//     clear: both;
+//   }
+  display: inline-block;
+}
+
+$gutter: 10px;
+
+@mixin grid-unit($span) {
+  display: inline-block;
+  padding: $gutter;
+  width: 8.333%*$span;
+}
+
+.container, .footer, .header {
+  // @include clearfix;
+  @include grid-unit(12);
+}
+.main-content {
+  @include grid-unit(8);
+  // cant set margin to auto right now cause clearfix not working.all fluid
+  margin: 0 16.66%; 
+}
+.sidebar {
+  @include grid-unit(4);
+}
+
+.col-12 { @include grid-unit(12); }
+.col-8  { @include grid-unit(8); }
+.col-6  { @include grid-unit(6); }
+.col-4  { @include grid-unit(4); }
+.col-2  { @include grid-unit(2); }
+//testing offset feature tries
+.col-offset-2 { 
+  width: 16.66%; background: hsla(0, 0, 0, 0);
+  height: 2px; display: inline-block; height: 2px; }
+  
