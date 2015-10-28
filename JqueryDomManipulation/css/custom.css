@@ -1,0 +1,19 @@
+#content {
+    width : 220px;
+    margin: 10% auto 0;
+}
+#content button {
+    display: inline-block;
+    padding: 2px 20px 0 2px;
+    border: 1px solid black;
+}
+.selected {
+    background-color: black;
+    color: white;
+    font-size: 20px;
+}
+.changable {
+    width: 400px;
+    padding: 0;
+    margin: 0;
+}
