@@ -20,3 +20,4 @@ button { width: 100px; background: #f30;}
 .hoversect div:nth-child(odd) { background: #f0d; }
 .blankdiv { text-align: center; }
 .blankdiv p { padding-top: 10px; }
+body { overflow: hidden; }

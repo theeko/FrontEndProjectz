@@ -3,12 +3,12 @@ $(function(){
     $(".dform").slideToggle();
   });
   $(".hoversect").mouseenter(function(){
-    $(this).animate({
+    $(this).stop().animate({
       right: "0px"
     });
   });
   $(".hoversect").mouseleave(function(){
-    $(this).animate({
+    $(this).stop().animate({
       right: "-60px"
     });
   });
