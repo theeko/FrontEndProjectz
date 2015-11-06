@@ -13,5 +13,8 @@ $(document).ready(function () {
 	  } else if ( bid === "b3") {
 	    cont.append("<p class='changing'>Coming Soon...</p>");
 	  }
+	  console.log( "event object:" );
+    console.dir( event );
 	});
+
 });
