@@ -81,5 +81,15 @@ input {
 #term {
 	display: inline-block;
 }
-
-/*body { background: #ccc url(/img/mint-logo-black.png) repeat-y 50% 0; }*/
+/*error class added by validation plugin to ones which failed to validate*/
+#jvalidatorform label.error {
+	font-size: 0.8em;
+	color: #f000;
+	font-weight: bold;
+	display: block;
+	margin-left: 215px;
+}
+#jvalidatorform input.error, #jvalidatorform select.error {
+	background: #ffa9b8;
+	border: 1px solid red;
+}
