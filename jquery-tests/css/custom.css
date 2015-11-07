@@ -21,3 +21,4 @@ button { width: 100px; background: #f30;}
 .blankdiv { text-align: center; }
 .blankdiv p { padding-top: 10px; }
 body { overflow: hidden; }
+#tabContainer { width: 600px; }
