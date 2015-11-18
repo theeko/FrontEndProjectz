@@ -1,6 +1,5 @@
 $(function(){
   var apikey = "24e75b084aa0de4b90f0cffc6fe57bcd", lat, lon, keeperofdata;
-  var streamers = ["freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff"];
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
