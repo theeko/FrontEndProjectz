@@ -5,8 +5,8 @@ $(function(){
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
     $("#test").html("latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude);
-    lat = position.coords.latitude.toFixed(2);
-    lon = position.coords.longitude.toFixed(2);
+    lat = position.coords.latitude.toFixed(3);
+    lon = position.coords.longitude.toFixed(3);
     });
   }
   
@@ -22,9 +22,6 @@ $(function(){
       $(".city p").text(data.sys["country"]);
     }
   });
-
-  $("#test").text(lon);
   
-
 });
 
