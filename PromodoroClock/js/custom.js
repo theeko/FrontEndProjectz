@@ -1,5 +1,42 @@
+var wtimer = 30, btimer = 5, seconds = 0, whichtimer = "w", timerF = false;
+var ptext = "";
+var timer;
+
+  var wInt = setInterval(function(){
+    if(timerF){
+      if( seconds == 0){ wtimer -= 1; seconds = 60;}
+      seconds -= 1;
+      if(seconds < 10){ ptext = wtimer + ":0" + seconds;}
+      else {ptext = wtimer + ":" + seconds;}
+      $(".paltext").text(ptext);
+      if(wtimer == 0 && seconds == 0){
+        wtimer = btimer;
+        whichtimer == "w" ? whichtimer = "b" : whichtimer = "w";
+        whichtimer == "b" ?  $(".timertype").text("Break") : $(".timertype").text("Work");
+      }
+    }
+  }, 1000);
+  
+  // var bInt = setInterval(function(){
+  //   if(timerF){
+  //     if( seconds == 0){ btimer -= 1; seconds = 60;}
+  //     seconds -= 1;
+  //     if(seconds < 10){ 
+  //       ptext = btimer + ":0" + seconds;}
+  //     else {ptext = btimer + ":" + seconds;}
+      
+  //     $(".paltext").text(ptext);
+  //     if( btimer == 0 && seconds == 0){
+  //       whichtimer = "w";
+  //       ptext = wtimer + ":00";
+  //       $(".timertype").text("break");
+  //       wInt();
+  //       clearInterval(bInt);
+  //     }
+  //   }
+  // }, 1000);
+
 $(function(){
-  var wtimer = 30, btimer = 5, ptext = wtimer + ":00", seconds = 0;
   $(".timerpaltext").text(ptext);
   $(".minuswork").on("click", function(){
     if( wtimer == 1) { return false; }
@@ -22,21 +59,9 @@ $(function(){
     $(this).siblings("span").text(btimer);
   });
   
-  var timerF = false
-  
   $(".pcounter").on("click", function(){
-      if( wtimer == 0 && seconds ==0){
-        return false;
-      }
-      
-    setInterval(function(){
-      if( seconds == 0){ wtimer -= 1; seconds = 61;}
-      seconds -= 1;
-      if(seconds < 10){ ptext = wtimer + ":0" + seconds;}
-      else {ptext = wtimer + ":" + seconds;}
-      
-      $(".pcounter p").text(ptext);
-    }, 1000);
+    timerF == false ? timerF = true : timerF = false;
   });
   
 });
+

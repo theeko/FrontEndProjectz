@@ -1,0 +1,23 @@
+body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+}
+body {background-color: #333; color: white;}
+.buttondiv p { margin-top: 10%; }
+.buttondiv { 
+    box-sizing: border-box; display: inline-block; padding: 6px 6px; 
+    background-color: #F47564; position: relative; width: 32%; text-align: center; }
+.twapi { position: absolute; width: 28%; left: 35%; top: 10%; background-color: #333; border: 1px solid #F47564; box-sizing: border-box;}
+.header { width: 100%; height: 30%;}
+.users {display: block; text-align: center;}
+a:hover { text-decoration: none;}
+.users { margin-top: 4%; }
+.users p { display: inline-block; width: 40%;}
+.users a { display: inline-block; width: 59%; text-align: left; padding-left: 20px;}
+.user { border-bottom: 1px solid green; }
+.user:last-of-type { border-bottom: none; }
