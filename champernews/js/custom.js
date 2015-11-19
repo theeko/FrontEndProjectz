@@ -2,8 +2,9 @@ $(function(){
 
     var cnurl = "http://www.freecodecamp.com/news/hot/";
     var chtml = "";
-    var timeconverter = function(){
-      var timenn
+    var timeconverter = function(n){
+      var t = new Date(n) + "";
+      return t.slice(4, 15);
     }
     $.ajax({
       dataType: "json",
@@ -17,7 +18,7 @@ $(function(){
          chtml += "<div class='user'><a href='http://www.freecodecamp.com/" + data[i].author.username + "' target='_blank'><img src='" + data[i].author.picture + "'/></a>"
          chtml += "<a href='" + data[i].link + "' target='_blank'><p>" + data[i].metaDescription.substr(0,24) + "...</p></a>"
          chtml += "<span>By -" + data[i].author.username + "<span>  +" + data[i].upVotes.length + "</span>"
-         chtml += "<p>Posted on: " +  "asdad" + "</p></div>" 
+         chtml += "<p>Posted on: " +  timeconverter(data[i].timePosted) + "</p></div>" 
 
          $(".users").append(chtml);
        }
