@@ -1,0 +1,33 @@
+a {
+  color: black;
+  text-decoration: none; }
+  a:hover, a:visited, a:active {
+    text-decoration: none;
+    color: black; }
+
+.content {
+  width: 80%;
+  margin: 3% 10%;
+  text-align: center; }
+
+input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 2px solid #c0392b;
+  outline: none; }
+
+.article {
+  text-align: left;
+  border: 3px solid #2C3E50;
+  margin: 1%;
+  padding: 10px; }
+  .article:hover {
+    box-shadow: -6px 0 6px #4183D7; }
+  .article h2 {
+    color: #1F3A93; }
+
+body {
+  background: #34495e; }
+
+h2 {
+  color: #c0392b; }
