@@ -1,26 +1,52 @@
 $(function(){
   var table = [];
   var whichFellasTurn = "human";
-  var signOfHuman = "i", signOfNonHuman = "i";
-  for(var i = 0; i<9; i++){
+  var signOfHuman , signOfNonHuman;
+  
+    for(var i = 0; i<9; i++){
       table.push("e");
+    }
+  
+  
+  
+  function aiPlay(board){
+   if (checkWinner(signOfHuman,board) ) {
+     clearGrid();
+     pupUp("You won! Wanna play again?");
+   }
+   if (checkTie(board)){
+     clearGrid();
+     pupUp("Tie ! Wanna play again?");
+   }
+   var x = findMove(board);
+   board[x] = signOfNonHuman;
+   console.log(table);
+   var y = +x+1;
+   $(".pdiv" + y).children("p").text(signOfNonHuman);
+     if (checkWinner(signOfNonHuman,board) ) {
+     clearGrid();
+     pupUp("AI Won! Wanna Play Again?");
+    }
+    whichFellasTurn = "human";
   }
-  function pupUp(){
-    var popHtml = "<div class='popup'><p>X XOR O?</p><button class='o'>O</button><button class='x'>X</button></div>";
+  
+  function pupUp(msg){
+    var x = msg || "X or O";
+    var popHtml = "<div class='popup'><p>" +  msg + "</p><button class='o'>O</button><button class='x'>X</button></div>";
     $(".playground").append(popHtml);
-  };
-  pupUp();
+
+  }
+  pupUp("X or O");
   $(".popup").on("click","button",function(e){
     var buttonval = $(this).text();
     makeChoice(buttonval);
-    $(".popup").fadeOut(500); 
-    drawGrind(); return false; 
-    playGame();
+    $(".playground").html(""); 
+    drawGrind(); 
   });
   
   function drawGrind(){
     for(var i = 1; i <= 9; i++){
-      var phtml = "<div class='pdiv pdiv" + i + "'>e</div>";
+      var phtml = "<div class='pdiv pdiv" + i + "'><p></p></div>";
         $(".playground").append(phtml).hide();
         $(".playground").fadeIn(500);
       }
@@ -29,12 +55,10 @@ $(function(){
     if( val == "X"){
       signOfHuman = "X";
       signOfNonHuman = "O";
-      console.log(signOfHuman);
     }
     if( val == "O") {
       signOfHuman = "O";
       signOfNonHuman = "X";
-      console.log(signOfHuman)
     }
   }
   
@@ -42,14 +66,129 @@ $(function(){
     $(".table").html("<div class='playground'></div>");
   }
   
-  function playGame() {
+  
   $("body").on("click", ".pdiv",function(){
-      if(true){
-        if( $(this).text() == "e"){
-          $(this).text(signOfHuman);
+    var $this = $(this);
+    if(whichFellasTurn == "human"){
+      if( $(this).children("p").text() != signOfNonHuman && $(this).children("p").text()!= signOfHuman ){
+        $this.children("p").text(signOfHuman);
+        if($this.hasClass("pdiv1")){ table[0] = signOfHuman }
+        if($this.hasClass("pdiv2")){ table[1] = signOfHuman }
+        if($this.hasClass("pdiv3")){ table[2] = signOfHuman }
+        if($this.hasClass("pdiv4")){ table[3] = signOfHuman }
+        if($this.hasClass("pdiv5")){ table[4] = signOfHuman }
+        if($this.hasClass("pdiv6")){ table[5] = signOfHuman }
+        if($this.hasClass("pdiv7")){ table[6] = signOfHuman }
+        if($this.hasClass("pdiv8")){ table[7] = signOfHuman }
+        if($this.hasClass("pdiv9")){ table[8] = signOfHuman }
+        
+        whichFellasTurn = "ai";
+        aiPlay(table);
+      }
+    }
+      
+    });
+  
+    
+    function copyGdamnBoard(board){
+      return board.slice(0);
+    }
+    
+    function checkWinner(player, board){
+      if( (board[0] == player && board[1] == player && board[2] == player) || 
+          (board[3] == player && board[4] == player && board[5] == player) ||
+          (board[6] == player && board[7] == player && board[8] == player) ||
+          (board[0] == player && board[3] == player && board[6] == player) ||
+          (board[1] == player && board[4] == player && board[7] == player) ||
+          (board[2] == player && board[5] == player && board[8] == player) ||
+          (board[0] == player && board[4] == player && board[8] == player) ||
+          (board[2] == player && board[4] == player && board[6] == player) ) {
+            return true;
+          }
+      return false;
+    }
+    
+    function checkTie(board){
+      for(var i = 0; i<board.length; i++){
+        if( board[i] == "e"){
+          return false;
         }
       }
-    });
-  }
-  console.log(signOfHuman);
+      return true;
+    }
+    
+    function makeMove(move, player, board){
+      var newBoard = copyGdamnBoard(board);
+      if(newBoard[move] == "e" ){
+        newBoard[move] = player;
+        return newBoard;
+      } else {
+        return null;
+      }
+    }
+    
+    function findMove(board){
+      var bestMoveVal = -100;
+      var move = 0;
+      for (var i = 0; i < board.length; i++) {
+        var newBoard = makeMove(i, signOfHuman, board);
+        if (!!newBoard ) {
+          var predictedMoveValue = maxValue(newBoard);
+          if (predictedMoveValue > bestMoveVal) {
+            bestMoveVal = predictedMoveValue;
+            move = i;
+          }
+        }
+      }
+      return move;
+    }
+    
+    function minValue(board){
+      if( checkWinner(signOfNonHuman, board)){
+        return 1;
+      } else if( checkWinner(signOfHuman, board)){
+        return -1;
+      } else if( checkTie(board)){
+        return 0;
+      } else {
+        var bestMoveValue = 100;
+        var move = 0;
+        for (var i = 0; i < board.length; i++) {
+          var newBoard = makeMove(i, signOfNonHuman, board);
+          if (newBoard) {
+            var predictedMoveValue = maxValue(newBoard);
+            if (predictedMoveValue < bestMoveValue) {
+              bestMoveValue = predictedMoveValue;
+              move = i;
+            }
+          }
+        }
+        return bestMoveValue;
+      }
+    }
+      
+      function maxValue(board){
+      if( checkWinner(signOfHuman, board)){
+        return 1;
+      } else if( checkWinner(signOfNonHuman, board)){
+        return -1;
+      } else if( checkTie(board)){
+        return 0;
+      } else {
+        var bestMoveValue = -100;
+        var move = 0;
+        for (var i = 0; i < board.length; i++) {
+          var newBoard = makeMove(i, signOfHuman, board);
+          if (newBoard) {
+            var predictedMoveValue = minValue(newBoard);
+            if (predictedMoveValue > bestMoveValue) {
+              bestMoveValue = predictedMoveValue;
+              move = i;
+            }
+          }
+        }
+        return bestMoveValue;
+      }
+    }
+    
 });
