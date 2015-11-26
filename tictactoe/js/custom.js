@@ -1,22 +1,34 @@
 $(function(){
-  var table = [];
+var table = [];
   var whichFellasTurn = "human";
   var signOfHuman , signOfNonHuman;
   
+  function madeTable() {
+    table = [];
     for(var i = 0; i<9; i++){
       table.push("e");
     }
-  
+    return table;
+  };
+  function hideMsg(){
+    $(".msg").html(" ")
+  }
   
   
   function aiPlay(board){
    if (checkWinner(signOfHuman,board) ) {
      clearGrid();
-     pupUp("You won! Wanna play again?");
+     playGame();
+     $(".msg").show;
+     $(".msg").text("You Won !!!");
+     $(".msg").fadeOut(2000);
    }
    if (checkTie(board)){
      clearGrid();
-     pupUp("Tie ! Wanna play again?");
+     playGame();
+     $(".msg").show();
+     $(".msg").text("Tie !!!");
+     $(".msg").fadeOut(2000);
    }
    var x = findMove(board);
    board[x] = signOfNonHuman;
@@ -25,24 +37,27 @@ $(function(){
    $(".pdiv" + y).children("p").text(signOfNonHuman);
      if (checkWinner(signOfNonHuman,board) ) {
      clearGrid();
-     pupUp("AI Won! Wanna Play Again?");
+     playGame();
+     $(".msg").show();
+     $(".msg").text("AI Won !!!");
+     $(".msg").fadeOut(2000);
     }
     whichFellasTurn = "human";
   }
   
-  function pupUp(msg){
-    var x = msg || "X or O";
-    var popHtml = "<div class='popup'><p>" +  msg + "</p><button class='o'>O</button><button class='x'>X</button></div>";
-    $(".playground").append(popHtml);
-
+  function pupUp(){
+    var popHtml = "<div class='popup'><p>X or O</p><button class='o'>O</button><button class='x'>X</button></div>";
+    $(".popupfield").append(popHtml);
+    
+    $(".popup").on("click","button",function(e){
+      var buttonval = $(this).text();
+      makeChoice(buttonval);
+      $(".popupfield").html(""); 
+      drawGrind(); 
+    });
   }
-  pupUp("X or O");
-  $(".popup").on("click","button",function(e){
-    var buttonval = $(this).text();
-    makeChoice(buttonval);
-    $(".playground").html(""); 
-    drawGrind(); 
-  });
+  
+  
   
   function drawGrind(){
     for(var i = 1; i <= 9; i++){
@@ -66,29 +81,32 @@ $(function(){
     $(".table").html("<div class='playground'></div>");
   }
   
-  
-  $("body").on("click", ".pdiv",function(){
-    var $this = $(this);
-    if(whichFellasTurn == "human"){
-      if( $(this).children("p").text() != signOfNonHuman && $(this).children("p").text()!= signOfHuman ){
-        $this.children("p").text(signOfHuman);
-        if($this.hasClass("pdiv1")){ table[0] = signOfHuman }
-        if($this.hasClass("pdiv2")){ table[1] = signOfHuman }
-        if($this.hasClass("pdiv3")){ table[2] = signOfHuman }
-        if($this.hasClass("pdiv4")){ table[3] = signOfHuman }
-        if($this.hasClass("pdiv5")){ table[4] = signOfHuman }
-        if($this.hasClass("pdiv6")){ table[5] = signOfHuman }
-        if($this.hasClass("pdiv7")){ table[6] = signOfHuman }
-        if($this.hasClass("pdiv8")){ table[7] = signOfHuman }
-        if($this.hasClass("pdiv9")){ table[8] = signOfHuman }
-        
-        whichFellasTurn = "ai";
-        aiPlay(table);
+  function playGame(){
+    madeTable();
+    pupUp();
+    $("body").on("click", ".pdiv",function(){
+      var $this = $(this);
+      if(whichFellasTurn == "human"){
+        if( $(this).children("p").text() != signOfNonHuman && $(this).children("p").text()!= signOfHuman ){
+          $this.children("p").text(signOfHuman);
+          if($this.hasClass("pdiv1")){ table[0] = signOfHuman }
+          if($this.hasClass("pdiv2")){ table[1] = signOfHuman }
+          if($this.hasClass("pdiv3")){ table[2] = signOfHuman }
+          if($this.hasClass("pdiv4")){ table[3] = signOfHuman }
+          if($this.hasClass("pdiv5")){ table[4] = signOfHuman }
+          if($this.hasClass("pdiv6")){ table[5] = signOfHuman }
+          if($this.hasClass("pdiv7")){ table[6] = signOfHuman }
+          if($this.hasClass("pdiv8")){ table[7] = signOfHuman }
+          if($this.hasClass("pdiv9")){ table[8] = signOfHuman }
+          
+          whichFellasTurn = "ai";
+          aiPlay(table);
+        }
       }
-    }
-      
-    });
-  
+        
+      });
+  }
+  playGame();
     
     function copyGdamnBoard(board){
       return board.slice(0);
@@ -140,7 +158,7 @@ $(function(){
           }
         }
       }
-      return move;
+      return board[4] == "e" ? 4 : move;
     }
     
     function minValue(board){
