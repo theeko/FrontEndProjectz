@@ -14,7 +14,7 @@ $(function(){
         if( !!data.stream == false) { status = "offline"; }
         
         uhtml = "<div class='user" + i +"'><a href='http://www.twitch.tv/" + item +"' target='_blank'>" + item + "</a>";
-        if( data.stream ){ status = "online"; uhtml += "<span class='streaminfo'>" + data.stream.game + "</span>"} 
+        if( data.stream ){ status = "online"; uhtml += "<p class='streaminfo'>" + data.stream.game + "</p>"} 
         uhtml += "<p class='" +status +"'>" + status + "</p></div>";
         $(".users").append(uhtml);
       }

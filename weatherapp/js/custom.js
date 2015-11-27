@@ -1,12 +1,10 @@
 $(function(){
   var apikey = "24e75b084aa0de4b90f0cffc6fe57bcd", lat, lon, keeperofdata;
-  var streamers = ["freecodecamp", "storbeck", "terakilobyte", "habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff"];
-
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
     $("#test").html("latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude);
-    lat = position.coords.latitude.toFixed(2);
-    lon = position.coords.longitude.toFixed(2);
+    lat = position.coords.latitude.toFixed(3);
+    lon = position.coords.longitude.toFixed(3);
     });
   }
   
@@ -19,11 +17,10 @@ $(function(){
       keeperofdata = data;
       $(".weath p").text(data.weather[0].description);
       $(".temp p").text(data.main.temp);
-      $(".city p").text(data.sys["country"]);
+      $(".city p").text(data.name);
     }
   });
 
-  $("#test").text(lon);
   
 
 });
