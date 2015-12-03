@@ -1,5 +1,5 @@
 
-body {background-color: #333; color: white;}
+body {background-color: #333; color: white; box-sizing: border-box;}
 .buttondiv p { margin-top: 10%; }
 .buttondiv { 
     box-sizing: border-box; display: inline-block; padding: 6px 6px; 
@@ -11,9 +11,10 @@ a:hover { text-decoration: none;}
 .users { margin-top: 4%; }
 .users p { display: inline-block; width: 30%;}
 .users a { display: inline-block; width: 40%; text-align: left; padding-left: 20px;}
-.user { border-bottom: 1px solid green; }
+.user { border-bottom: 1px solid green; position: absolute;}
 .user:last-of-type { border-bottom: none; }
 .hideit{ display: none;}
 span { font-size: 0.8em; padding-right: 10px;}
 .search { width: 100%}
 .searchi { width: 80%; height: 40px; border-radius: 6px; margin-left: 10%; margin-top: 10px; text-align: center; color: #d3d3d3;}
+.streaminfo { position: absolute;  right: 0; top: 0;}

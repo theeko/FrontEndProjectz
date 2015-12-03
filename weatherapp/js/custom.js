@@ -1,6 +1,9 @@
 $(function(){
   var apikey = "24e75b084aa0de4b90f0cffc6fe57bcd", lat, lon, keeperofdata;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
     $("#test").html("latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude);
@@ -18,9 +21,13 @@ $(function(){
       keeperofdata = data;
       $(".weath p").text(data.weather[0].description);
       $(".temp p").text(data.main.temp);
-      $(".city p").text(data.sys["country"]);
+      $(".city p").text(data.name);
     }
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   
 });
 
