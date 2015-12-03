@@ -99,10 +99,10 @@ p {
   background: #8A2D3C;
   color: #22313F;
   font-family: 'Ultra', serif;
-  font-size: 2em;
+  font-size: 1.2em;
   text-align: top; }
   .counter p {
-    margin-top: -10px; }
+    margin-top: -2px; }
 
 .startpart {
   position: absolute;
