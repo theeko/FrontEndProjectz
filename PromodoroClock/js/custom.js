@@ -1,4 +1,5 @@
 $(function(){
+    var audio = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
   function setTime(){
     whichtimer == "w" ? timer = +($(".worktext").text()) : timer = +($(".breaktext").text());
   }
@@ -20,6 +21,7 @@ $(function(){
       else {ptext = timer + ":" + seconds;}
       $(".paltext").text(ptext);
       if(timer == 0 && seconds == 0){
+        audio.play();
         whichtimer == "w" ? whichtimer = "b" : whichtimer = "w";
         setTime();
         whichtimer == "b" ?  $(".timertype").text("Break") : $(".timertype").text("Work");
