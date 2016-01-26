@@ -1,0 +1,39 @@
+
+.axis {
+  font: 10px sans-serif;
+}
+.label{
+  font-size: 1.5em;
+}
+
+.tooltip { 
+  font-weight: bold; 
+  font-size: 1.2em; 
+  color:white;
+  background: black;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.yearlabel {
+  font-weight: bold;
+}
+
+.yaxis line,path {
+  fill: none; blue: none; shape-rendering: crispEdges;
+}
+
+.xaxis path,
+.xaxis line,
+.monthLabel path, .monthLabel line{
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+body{
+  background: #d3d3d3;
+}
+.app { margin: 5% 10% 15%; text-align: center; background: #ecf0f1;}
+h3 { padding-top: 30px; }
