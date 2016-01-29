@@ -1,7 +1,5 @@
-body {
-  background-color: #BF55EC;
-}
 
+body { background-color: #BF55EC; }
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
