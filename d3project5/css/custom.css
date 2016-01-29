@@ -1,12 +1,21 @@
-.node {
-  stroke: #fff;
-  stroke-width: 1.5px;
+html,body {
+  margin: 0;
 }
 
-.link {
-  stroke: #999;
-  stroke-opacity: .6;
+.tooltip {   
+  font-family: 'Lato', 'Arial', sans-serif;
+  position: absolute;           
+  text-align: left;           
+  width: auto;                  
+  height: auto;                 
+  padding: 20px;             
+  font: 1em;
+  background: hsla(0, 0%, 100%, .8);
+  pointer-events: none;         
+  box-shadow: 0 5px 10px hsla(0, 0%, 0%, .2);
+  line-height: 1.5em;
 }
 
-body{ background: green; }
-.app { background: white; }
+.def {
+  font-weight: 700;
+}
