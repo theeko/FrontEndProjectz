@@ -1,136 +1,71 @@
-// Initialization 
-var width = '100%',
-    height = '100%',
-    sizeModifier = 50,
-    hue = 0, colors = {},
-    meteorites;
+var worldurl =  "https://raw.githubusercontent.com/mbostock/topojson/master/examples/world-50m.json";
+var meteorurl = "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/meteorite-strike-data.json";
+var width = 960, height= 480, worlddata, meteordata;
 
-var projection = d3.geo.mercator()
-  .translate([780,360])
-  .scale(300);
+var tooltip = d3.select(".app").append("div")
+                  .style("position", "absolute")
+                  .style("z-index", "10")
+                  .style("opacity", 0)
+                  .attr("class", "tooltip");
 
-var zoom = d3.behavior.zoom()
-  .translate([0, 0])
-  .scale(1)
-  .scaleExtent([.5, 18])
-  .on("zoom", zoomed);
-
-var path = d3.geo.path()
-  .projection(projection);
-
-var svg = d3.select('#container')
-  .append('svg')
-  .attr('width', '100%')
-
-// Set background color
-svg.append('rect')
-  .attr('width', width)
-  .attr('height', height)
-  .attr('fill', '#266D98')
-  .call(zoom)
+var svg = d3.select(".app")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
 
 
-d3.select(window).on("resize", sizeChange);
 
-// Tooltip
-var div = d3.select('body').append('div')
-  .attr('class', 'tooltip')
-  .style('opacity', 0);
+  d3.json(worldurl, function(err, world){
+    if(err){ throw err }
 
-var map = svg.append('g');
+    var projection = d3.geo.mercator().scale(160).translate([width / 2, height / 2]);
+    var path = d3.geo.path()
+              .projection(projection);
+              svg.append("path")
+              .datum(topojson.feature(world,world.objects.land))
+              .attr("d", path);
 
-// Map of earth
-d3.json('https://raw.githubusercontent.com/mbostock/topojson/master/examples/world-50m.json', function(json) {
-  map.selectAll('path')
-    .data(topojson.feature(json, json.objects.countries).features)
-    .enter()
-    .append('path')
-    .attr('fill', '#95E1D3')
-    .attr('stroke', '#266D98')
-    .attr('d', path)
-    //.call(zoom) // This is super jittery for some reason
-});
+    d3.json(meteorurl, function(err, meteor) {
+       if(err){ throw err }
 
-// Data points
-d3.json('https://data.nasa.gov/resource/y77d-th95.geojson', function(json) {
-
-  json.features.sort(function(a,b) {
-    return new Date(a.properties.year) - new Date(b.properties.year);
-  })
-  json.features.map(function(e) {
-    hue+=.35;
-    colors[e.properties.year] = hue;
-    e.color = 'hsl(' + hue + ',100%, 50%)';
-  })
-
-  json.features.sort(function(a,b) {
-    return b.properties.mass - a.properties.mass
-  })
-
-  meteorites = svg.append('g')
-  .selectAll('path')
-    .data(json.features)
-    .enter()
-      .append('circle')
-      .attr('cx', function(d) { return projection([d.properties.reclong,d.properties.reclat])[0] })
-      .attr('cy', function(d) { return projection([d.properties.reclong,d.properties.reclat])[1] })
-      .attr('r', function(d) { 
-        var range = 718750/2/2;
-    
-        if (d.properties.mass <= range) return 2;
-        else if (d.properties.mass <= range*2) return 10;
-        else if (d.properties.mass <= range*3) return 20;
-        else if (d.properties.mass <= range*20) return 30;
-        else if (d.properties.mass <= range*100) return 40;
-        return 50;
+      svg.selectAll(".areacircles")
+      .data(meteor.features)
+      .enter().append("circle")
+      .style("stroke", "#CF000F")
+      .style("stroke-width", 2)
+      .style("fill", "rgba(0,0,0,0.3)")
+      .attr("r", function(d) {
+        var mass = Math.floor(+d.properties.mass / 50000);
+        var left = mass - 40;
+        return (left <= 0 ? (mass || 0) + 3 : 40 + Math.round(left/60));
       })
-      .attr('fill-opacity', function(d) {
-        var range = 718750/2/2;
-        if (d.properties.mass <= range) return 1;
-        return .5;
+      .attr("transform", function(d) {
+        return "translate(" + projection([
+          d.properties.reclong,
+          d.properties.reclat
+        ]) + ")";
       })
-      .attr('stroke-width', 1)
-      .attr('stroke', '#EAFFD0')
-      .attr('fill', function(d) { return d.color })
-      .on('mouseover', function(d) {
-        d3.select(this).attr('d', path).style('fill', 'black');
-        // Show tooltip
-        div.transition()
-          .duration(200)
-          .style('opacity', .9);
-        div.html( '<span class="def">fall:</span> ' + d.properties.fall + '<br>' + 
-                  '<span class="def">mass:</span> ' + d.properties.mass + '<br>' + 
-                  '<span class="def">name:</span> ' + d.properties.name + '<br>' + 
-                  '<span class="def">nametype:</span> ' + d.properties.nametype + '<br>' +
-                  '<span class="def">recclass:</span> ' + d.properties.recclass + '<br>' + 
-                  '<span class="def">reclat:</span> ' + d.properties.reclat + '<br>' + 
-                  '<span class="def">year:</span> ' + d.properties.year + '<br>')
-          .style('left', (d3.event.pageX+30) + 'px')
-          .style('top', (d3.event.pageY/1.5) + 'px')
+      .on("mouseover", function () {
+                return tooltip.style("opacity", 0.8)
+              })
+      .on("mousemove", function(d){
+        tooltip.style("opacity", 0.8);
+        tooltip.html(
+            "mass: " + d.properties.mass + "<br/>name: " + d.properties.name
+            + "<br/>recclass: " + d.properties.recclass
+            + "<br/>reclat: " + d.properties.reclat + "<br/>year: " + d.properties.year.substr(0,4)
+          )
+        tooltip.style("top", (d3.event.pageY-40) +"px").style("left", (d3.event.pageX+30) + "px")
       })
-      .on('mouseout', function(d) {
-        // Reset color of dot
-        d3.select(this).attr('d', path).style('fill', function(d) { return d.properties.hsl });
-
-        // Fade out tooltip
-        div.transition()
-          .duration(500)
-          .style('opacity', 0);
+      .on("mouseout", function (argument) {
+        return tooltip.style("opacity", 0);
       });
-  
-  // Initialize map sizes
-  sizeChange();
-});
 
-// Move and scale map and meteorites on interaction
-function zoomed() {
-  map.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-  meteorites.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')');
-}
+    });
+
+  });
 
 
-// Resize map on window resize
-function sizeChange() {
-  d3.selectAll("g").attr("transform", "scale(" + $("#container").width()/1900 + ")");
-  $("svg").height($("#container").width()/2);
-}
+
+
+

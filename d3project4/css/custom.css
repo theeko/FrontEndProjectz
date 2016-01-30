@@ -1,5 +1,4 @@
 
-body { background-color: #BF55EC; }
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
@@ -7,8 +6,7 @@ body { background-color: #BF55EC; }
 }
 
 .link {
-  stroke: #999;
-  stroke-opacity: .6;
+  stroke: blue;
 }
 
 .tooltip {
@@ -21,5 +19,5 @@ body { background-color: #BF55EC; }
   padding: 0px;
   width: 850px;
   height: 850px;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.32), 0 3px 12px 0 rgba(0, 0, 0, 0.24);
+  background: #d3d3d3;
 }

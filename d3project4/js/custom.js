@@ -1,66 +1,11 @@
 var config = {
   dataUrl: "http://www.freecodecamp.com/news/hot"
 }
-var width= 800, height= 600;
+var width= 750, height= 600;
 var dataChamper = [];
 var nodes = {};
 var links = [];
-
-function getHost(url){ 
-  var anchor = document.createElement("a");
-  anchor.href = url;
-  return anchor.hostname;
-}
-
-function getData(){
-  d3.json(config.dataUrl, function(error, found) {
-  if (error) throw error;
-
-  found.forEach(function(d) {
-    var story = {
-      image: d.image,
-      url: d.link,
-      authorPicture: d.author.picture,
-      authorUsername: d.author.username,
-      rank: d.rank,
-      hostName: getHost(d.link)
-    };
-
-
-    // kept if more is need to be displayed later
-    dataChamper.push(story);
-
-    // put required info into links array
-    var item = {
-      "source": story.authorUsername,
-      "target": story.hostName,
-      "image": story.authorPicture,
-      "rank": story.rank
-    };
-    links.push(item);
-
-  });
-
-
-  // Compute the distinct nodes from the links.
-  links.forEach(function(link) {
-    link.source = nodes[link.source] || (nodes[link.source] = {
-      name: link.source,
-      image: link.image
-    });
-    link.target = nodes[link.target] || (nodes[link.target] = {
-      name: link.target,
-      rank: []
-    });
-  });
-  
-  links.forEach(function(link, i) {
-    nodes[link.target.name].rank.push(link.rank);
-  });
-  vizualization();
-});}
-          
-          
+       
 function vizualization(){
    var colorScale = d3.scale.category20();
   
@@ -69,7 +14,7 @@ function vizualization(){
     .links(links)
     .size([width, height])
     .gravity(0.2)
-    .linkDistance(55)
+    .linkDistance(50)
     .charge(function(d) {
       return -((d.weight * 3) + 150);
     })
@@ -150,6 +95,55 @@ function vizualization(){
         });
     }
 }
+
+function getHost(url){ 
+  var hName;
+  url.indexOf("://") != -1 ? hName = url.split('/')[2] : hName = url.split('/')[0]
+  return hName;
+}
+
+function getData(){
+  d3.json(config.dataUrl, function(error, found) {
+  if (error) throw error;
+
+  found.forEach(function(d) {
+    var udata = {
+      image: d.image,
+      url: d.link,
+      userPic: d.author.picture,
+      userName: d.author.username,
+      rank: d.rank,
+      hostName: getHost(d.link)
+    };
+
+    dataChamper.push(udata);
+
+    var link = {
+      "source": udata.userName,
+      "target": udata.hostName,
+      "image": udata.userPic,
+      "rank": udata.rank
+    };
+    links.push(link);
+  });
+
+  links.forEach(function(link) {
+    link.source = nodes[link.source] || (nodes[link.source] = {
+      name: link.source,
+      image: link.image
+    });
+    link.target = nodes[link.target] || (nodes[link.target] = {
+      name: link.target,
+      rank: []
+    });
+  });
+  
+  links.forEach(function(link) {
+    nodes[link.target.name].rank.push(link.rank);
+  });
+  vizualization();
+});}
+
 getData();
 // references-> http://bl.ocks.org/mbostock/4062045 , http://bl.ocks.org/sathomas/11550728 
 //https://github.com/mbostock/d3/wiki/Force-Layout
