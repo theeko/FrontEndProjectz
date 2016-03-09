@@ -1,0 +1,13 @@
+body {
+  padding: 50px;
+  margin: 0;
+  background: green;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  box-sizing: border-box; }
+
+a {
+  color: #00B7FF; }
+
+img {
+  -webkit-transform: translate(50px, 100px);
+          transform: translate(50px, 100px); }
